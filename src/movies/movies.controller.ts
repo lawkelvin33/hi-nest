@@ -9,12 +9,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movies.entity';
 import { MoviesService } from './movies.service';
 
 @Controller('movies') // url entry point
 export class MoviesController {
-  constructor(readonly moviesService: MoviesService) {}
+  constructor(readonly moviesService: MoviesService) {} //의존성 주입! (Dependency Injection)
 
   @Get() //routers
   getAll(): Movie[] {
@@ -28,8 +29,9 @@ export class MoviesController {
   //   }
 
   @Get(':id')
-  getOne(@Param('id') movieId: string): Movie {
+  getOne(@Param('id') movieId: number): Movie {
     // :id와 @Param('id')는 동일해야하지만, 이를 저장한 변수 movieId는 달라도 됨
+    console.log(typeof movieId);
     return this.moviesService.getOne(movieId);
   }
 
@@ -39,12 +41,12 @@ export class MoviesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') movieId: string) {
+  remove(@Param('id') movieId: number) {
     return this.moviesService.deleteOne(movieId);
   }
 
   @Patch(':id') // 일부 업데이트
-  patch(@Param('id') movieId: string, @Body() updateData) {
+  patch(@Param('id') movieId: number, @Body() updateData: UpdateMovieDto) {
     return this.moviesService.update(movieId, updateData);
   }
 }
