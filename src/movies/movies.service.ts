@@ -13,6 +13,7 @@ export class MoviesService {
   }
 
   getOne(id: number): Movie {
+    console.log(id);
     const movie = this.movies.find((movie) => movie.id === id); // find element that matches id, return bool
     if (!movie) {
       // movie.id does not exist
